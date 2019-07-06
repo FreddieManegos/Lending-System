@@ -1,4 +1,6 @@
 
+<!-- Bootstrap CSS -->
+
 {{-- resources/views/admin/dashboard.blade.php --}}
 @extends('adminlte::page')
 
@@ -35,13 +37,16 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">Total Loan:</label>
-                            <input type="text" class="form-control" id="productName"  name="total_loan">
+                            <input type="text" class="form-control" id="total_loan"  name="total_loan" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group ">
+                        <div class="input-group">
                             <label for="title">Date Loan:</label>
-                            <input type="date" class="form-control" id="productName"  name="date_loaned">
+                            <input type="text" class="form-control" id="date_loaned"  name="date_loaned">
+                            <div class="input-group-addon">
+                                <button class="input-group-text btn" type="button">Button</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,13 +77,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">Amount Loan:</label>
-                            <input type="text" class="form-control" id="productName"  name="amount_loaned">
+                            <input type="text" autocomplete="off" class="form-control" id="amount_loaned"  name="amount_loaned">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group ">
                             <label for="title">Due Date:</label>
-                            <input type="date" class="form-control" id="productName"  name="due_date">
+                            <input type="date" class="form-control" id="due_date"  name="due_date" readonly>
                         </div>
                     </div>
                 </div>
@@ -86,7 +91,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">Daily Payment: </label>
-                            <input type="text" class="form-control" id="productName"  name="daily_payment">
+                            <input type="text" class="form-control" id="daily_payment"  name="daily_payment">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -103,7 +108,6 @@
             </form>
         </div>
         <div class="col-md-6">
-            Hello
         </div>
     </div>
 @stop
@@ -114,7 +118,32 @@
 
 @section('js')
     <script>
+        jQuery.each(data, function(index, value) {
+            $("#table_div").append("<tr><td>" + value + "</td></tr>");
+        });
+    </script>
+    <script>
+        var total_loan = document.getElementById('total_loan');
+        total_loan.value = 0.00;
+        var amount_loaned = document.getElementById('amount_loaned');
+        amount_loaned.value = 0.00;
+        var daily_payment = document.getElementById('daily_payment');
+        daily_payment.value = 0.00;
 
+        amount_loaned.addEventListener('input',function() {
+           total_loan.value = (this.value * 1.2);
+           daily_payment.value = Math.ceil(this.value * 1.2 / 52);
+        });
+    </script>
+    <script>
+        var date_loaned = document.getElementById('date_loaned');
+        var due_date = document.getElementById('due_date');
+
+        date_loaned.addEventListener('input',function () {
+            var result = new Date(date_loaned);
+
+        })
     </script>
 @stop
+
 
