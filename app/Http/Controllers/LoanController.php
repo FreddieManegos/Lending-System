@@ -15,6 +15,7 @@ class LoanController extends Controller
     public function index()
     {
         //
+        return view('loan.index');
     }
 
     /**
@@ -25,6 +26,7 @@ class LoanController extends Controller
     public function create()
     {
         //
+        return view('loan.create');
     }
 
     /**
@@ -36,6 +38,8 @@ class LoanController extends Controller
     public function store(Request $request)
     {
         //
+        Loan::create($request->all());
+        return redirect(route('loan.create'));
     }
 
     /**
@@ -47,6 +51,7 @@ class LoanController extends Controller
     public function show(Loan $loan)
     {
         //
+
     }
 
     /**

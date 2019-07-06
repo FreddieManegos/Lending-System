@@ -23,6 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('lending.dashboard');
+        return view('loan.dashboard');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+
+
 return [
 
     /*
@@ -108,18 +110,10 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'Pages',
+            'text'        => 'Dashboard',
             'url'         => 'admin/pages',
             'icon'        => 'dashboard',
-            'label'       => 4,
-            'label_color' => 'success',
         ],
         [
             'text'    => 'Loan',
@@ -128,14 +122,19 @@ return [
                 [
                     'text' => 'Loans',
                     'icon' => 'eye',
-                    'url'  => '#',
+                    'url'  => 'loan',
                 ],
                 [
                     'text' => 'Create Loan',
                     'icon' => 'plus',
-                    'url'  => '#',
+                    'url'  => 'loan/create',
                 ],
             ],
+        ],
+        [
+            'text'        => 'Collector',
+            'url'         => '#',
+            'icon'        => 'group',
         ],
     ],
 
