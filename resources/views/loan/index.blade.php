@@ -1,3 +1,7 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
 {{-- resources/views/admin/dashboard.blade.php --}}
 @extends('adminlte::page')
 
@@ -12,19 +16,30 @@
     <table id="myTable" class="display">
         <thead>
         <tr>
-            <th>Test</th>
-            <th>Test 2</th>
+            <th>Id</th>
+            <th>Client Name</th>
+            <th>Total Loan</th>
+            <th>Amount Loan</th>
+            <th>Terms</th>
+            <th>Collector</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
+        @foreach($loans as $loan)
         <tr>
-            <td>Row 1 Data 1</td>
-            <td>Row 1 Data 2</td>
+            <td>{{$loan->id}}</td>
+            <td>{{$loan->client_last_name}} , {{$loan->client_first_name}}</td>
+            <td>{{$loan->total_loan}}</td>
+            <td>{{$loan->amount_loaned}}</td>
+            <td>{{$loan->loan_term}}</td>
+            <td>Collector 1</td>
+            <td>
+                <a href="" data-toggle="modal" data-target="#view-{{$loan->id}}"><button class="btn btn-primary">View</button></a>
+                <a href="" data-toggle="modal" data-target="#edit-{{$loan->id}}"><button class="btn btn-primary">Delete</button></a>
+            </td>
         </tr>
-        <tr>
-            <td>Row 2 Data 1</td>
-            <td>Row 2 Data 2</td>
-        </tr>
+        @endforeach
         </tbody>
     </table>
 @stop

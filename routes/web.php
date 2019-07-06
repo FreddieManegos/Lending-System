@@ -20,3 +20,6 @@ Auth::routes();
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::resource('/loan','LoanController');
+
+Route::resource('/collector','CollectorController');
+

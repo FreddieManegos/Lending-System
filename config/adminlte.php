@@ -112,7 +112,7 @@ return [
     'menu' => [
         [
             'text'        => 'Dashboard',
-            'url'         => 'admin/pages',
+            'url'         => 'dashboard',
             'icon'        => 'dashboard',
         ],
         [
@@ -133,7 +133,7 @@ return [
         ],
         [
             'text'        => 'Collector',
-            'url'         => '#',
+            'url'         => 'collector',
             'icon'        => 'group',
         ],
     ],

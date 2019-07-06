@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Loan;
+use App\Collector;
 use Illuminate\Http\Request;
 
-class LoanController extends Controller
+class CollectorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,7 @@ class LoanController extends Controller
     public function index()
     {
         //
-        $loans = Loan::all();
-        return view('loan.index',compact('loans'));
+        return view('collector.index');
     }
 
     /**
@@ -27,7 +26,6 @@ class LoanController extends Controller
     public function create()
     {
         //
-        return view('loan.create');
     }
 
     /**
@@ -39,29 +37,26 @@ class LoanController extends Controller
     public function store(Request $request)
     {
         //
-        Loan::create($request->all());
-        return redirect(route('loan.create'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Loan  $loan
+     * @param  \App\Collector  $collector
      * @return \Illuminate\Http\Response
      */
-    public function show(Loan $loan)
+    public function show(Collector $collector)
     {
         //
-
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Loan  $loan
+     * @param  \App\Collector  $collector
      * @return \Illuminate\Http\Response
      */
-    public function edit(Loan $loan)
+    public function edit(Collector $collector)
     {
         //
     }
@@ -70,10 +65,10 @@ class LoanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Loan  $loan
+     * @param  \App\Collector  $collector
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Loan $loan)
+    public function update(Request $request, Collector $collector)
     {
         //
     }
@@ -81,10 +76,10 @@ class LoanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Loan  $loan
+     * @param  \App\Collector  $collector
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Loan $loan)
+    public function destroy(Collector $collector)
     {
         //
     }

@@ -1,3 +1,4 @@
+
 {{-- resources/views/admin/dashboard.blade.php --}}
 @extends('adminlte::page')
 
@@ -12,9 +13,23 @@
         <div class="col-md-6">
             <form action="{{route('loan.store')}}" method="POST">
                 {{csrf_field()}}
-                <div class="form-group ">
-                    <label for="title">Account Number:</label>
-                    <input type="text" class="form-control" id="productName"  name="account_no" size="10">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label for="title">Account Number:</label>
+                            <input type="text" class="form-control" id="productName"  name="account_no" size="10">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label for="title">Collector:</label>
+                            <select class="form-control" name="">
+                                <option>Collector 1</option>
+                                <option>Collector 2</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
