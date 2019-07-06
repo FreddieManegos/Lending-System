@@ -20,13 +20,13 @@
                     <div class="col-md-6">
                         <div class="form-group ">
                             <label for="title">Account Number:</label>
-                            <input type="text" class="form-control" id="productName"  name="account_no" size="10">
+                            <input type="text" class="form-control" id="productName"  name="account_no" size="10" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group ">
                             <label for="title">Collector:</label>
-                            <select class="form-control" name="">
+                            <select class="form-control" name="" required>
                                 <option>Collector 1</option>
                                 <option>Collector 2</option>
                             </select>
@@ -37,15 +37,17 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">Total Loan:</label>
-                            <input type="text" class="form-control" id="total_loan"  name="total_loan" readonly>
+                            <input type="text" class="form-control" id="total_loan"  name="total_loan" readonly required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-group">
                             <label for="title">Date Loan:</label>
-                            <input type="text" class="form-control" id="date_loaned"  name="date_loaned">
-                            <div class="input-group-addon">
-                                <button class="input-group-text btn" type="button">Button</button>
+                            <input type="date" class="form-control" id="date_loaned"  name="date_loaned" required>
+                            <div class="input-group-addon" style="
+                                border-color: #ecf0f5;
+                                background-color: #ecf0f5;">
+                                <button class="input-group-text btn" type="button" id="setButton">Set</button>
                             </div>
                         </div>
                     </div>
@@ -55,29 +57,29 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">First Name:</label>
-                            <input type="text" class="form-control" id="productName"  name="client_first_name" placeholder="Last Name">
+                            <input type="text" class="form-control" id="productName"  name="client_first_name" placeholder="First Name" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">Last Name:</label>
-                            <input type="text" class="form-control" id="productName"  name="client_last_name" placeholder="Last Name">
+                            <input type="text" class="form-control" id="productName"  name="client_last_name" placeholder="Last Name" required>
                         </div>
                     </div>
                 </div>
                 <div class="form-group ">
                     <label for="title">Address:</label>
-                    <input type="text" class="form-control" id="productName"  name="client_address" size="10">
+                    <input type="text" class="form-control" id="productName"  name="client_address" size="10" required>
                 </div>
                 <div class="form-group ">
                     <label for="title">Mobile Number:</label>
-                    <input type="text" class="form-control" id="productName"  name="mobile_no" size="10">
+                    <input type="text" class="form-control" id="productName"  name="mobile_no" size="10" >
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">Amount Loan:</label>
-                            <input type="text" autocomplete="off" class="form-control" id="amount_loaned"  name="amount_loaned">
+                            <input type="text" autocomplete="off" class="form-control" id="amount_loaned"  name="amount_loaned" >
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -91,13 +93,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">Daily Payment: </label>
-                            <input type="text" class="form-control" id="daily_payment"  name="daily_payment">
+                            <input type="text" class="form-control" id="daily_payment"  name="daily_payment" >
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group ">
                             <label for="title">Term:</label>
-                            <select class="form-control" name="loan_term">
+                            <select class="form-control" name="loan_term" required>
                                 <option >52 Days (2 Months)</option>
                                 <option>26 Days (1 Month)</option>
                             </select>
@@ -136,13 +138,19 @@
         });
     </script>
     <script>
-        var date_loaned = document.getElementById('date_loaned');
-        var due_date = document.getElementById('due_date');
+        $(document).ready(function(){
+            $('#setButton').click(function () {
+                var date_loaned  = document.getElementById('date_loaned');
+                var due_date = document.getElementById('due_date');
+                var result = new Date(date_loaned.value);
+                result.setDate(result.getDate() + 60);
+                var month = result.getMonth >= 10 ? result.getMonth() : '0' + result.getMonth();
+                var day = result.getDate >= 10 ? result.getDate() : '0' + result.getDate();
+                alert(result.getFullYear() + '-' + month + '-' + day);
+                due_date.value = result.getFullYear() + '-' + month + '-' + day;
+            })
+        });
 
-        date_loaned.addEventListener('input',function () {
-            var result = new Date(date_loaned);
-
-        })
     </script>
 @stop
 
