@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Collector;
+use App\Payment;
 use Illuminate\Http\Request;
 
-class CollectorController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,6 @@ class CollectorController extends Controller
     public function index()
     {
         //
-        $collectors = Collector::all();
-        return view('collector.index',compact('collectors'));
     }
 
     /**
@@ -38,17 +36,15 @@ class CollectorController extends Controller
     public function store(Request $request)
     {
         //
-        Collector::create($request->all());
-        return redirect()->back()->with('message', 'Successfully added!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Collector  $collector
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show(Collector $collector)
+    public function show(Payment $payment)
     {
         //
     }
@@ -56,10 +52,10 @@ class CollectorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Collector  $collector
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Collector $collector)
+    public function edit(Payment $payment)
     {
         //
     }
@@ -68,10 +64,10 @@ class CollectorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Collector  $collector
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Collector $collector)
+    public function update(Request $request, Payment $payment)
     {
         //
     }
@@ -79,13 +75,11 @@ class CollectorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Collector  $collector
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Collector $collector)
+    public function destroy(Payment $payment)
     {
         //
-        Collector::destroy($collector->id);
-        return back()->withFlashSuccess('User deleted successfully');
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Collector;
+use App\Customer;
 use App\Loan;
+use App\Payment;
 use Illuminate\Http\Request;
 
 class LoanController extends Controller
@@ -27,7 +30,8 @@ class LoanController extends Controller
     public function create()
     {
         //
-        return view('loan.create');
+        $collectors = Collector::all();
+        return view('loan.create',compact('collectors'));
     }
 
     /**
@@ -39,8 +43,22 @@ class LoanController extends Controller
     public function store(Request $request)
     {
         //
-        Loan::create($request->all());
-        return redirect(route('loan.create'));
+        $id = Customer::create($request->only('first_name','last_name','address','mobile_no'))->id;
+        Loan::create([
+            'account_no'    => 01,
+            'collector_id'  => $request->collector_id,
+            'total_loan'    => $request->total_loan,
+            'date_loaned'   => $request->date_loaned,
+            'customer_id'   => $id,
+            'amount_loaned' => $request->amount_loaned,
+            'due_date'      => $request->due_date,
+            'daily_payment' => $request->daily_payment,
+            'loan_term'     => $request->loan_term
+        ]);
+
+
+
+        return redirect()->back()->with('message', 'Successfully added!');
     }
 
     /**
@@ -52,7 +70,7 @@ class LoanController extends Controller
     public function show(Loan $loan)
     {
         //
-
+        return view('loan.show',compact('loan'));
     }
 
     /**

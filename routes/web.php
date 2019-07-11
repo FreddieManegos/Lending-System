@@ -23,3 +23,4 @@ Route::resource('/loan','LoanController');
 
 Route::resource('/collector','CollectorController');
 
+Route::get('/customer', 'CustomerController@index');

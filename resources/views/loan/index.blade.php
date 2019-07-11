@@ -12,8 +12,7 @@
 @stop
 
 @section('content')
-
-    <table id="myTable" class="display">
+    <table id="myTable" class="display" style="font-size: 13px;">
         <thead>
         <tr>
             <th>Id</th>
@@ -22,6 +21,7 @@
             <th>Amount Loan</th>
             <th>Terms</th>
             <th>Collector</th>
+            <th>Due Date</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -29,14 +29,16 @@
         @foreach($loans as $loan)
         <tr>
             <td>{{$loan->id}}</td>
-            <td>{{$loan->client_last_name}} , {{$loan->client_first_name}}</td>
+            <td>{{$loan->customer->last_name}}, {{$loan->customer->first_name}}</td>
             <td>{{$loan->total_loan}}</td>
             <td>{{$loan->amount_loaned}}</td>
             <td>{{$loan->loan_term}}</td>
-            <td>Collector 1</td>
+            <td>{{$loan->collector->name}}</td>
+            <td>{{$loan->due_date}}</td>
             <td>
-                <a href="" data-toggle="modal" data-target="#view-{{$loan->id}}"><button class="btn btn-primary">View</button></a>
-                <a href="" data-toggle="modal" data-target="#edit-{{$loan->id}}"><button class="btn btn-primary">Delete</button></a>
+                <a href="loan\{{$loan->id}}" ><button class="btn btn-success">View</button></a>
+                <a href="" data-toggle="modal" data-target="#check-{{$loan->id}}"><button class="btn btn-primary">Check</button></a>
+                <a href="" data-toggle="modal" data-target="#edit-{{$loan->id}}"><button class="btn btn-danger">Delete</button></a>
             </td>
         </tr>
         @endforeach

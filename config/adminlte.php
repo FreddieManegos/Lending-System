@@ -136,6 +136,11 @@ return [
             'url'         => 'collector',
             'icon'        => 'group',
         ],
+        [
+            'text'        => 'Customer',
+            'url'         => 'customer',
+            'icon'        => 'group',
+        ],
     ],
 
     /*

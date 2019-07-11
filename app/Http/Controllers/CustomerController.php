@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Collector;
+use App\Customer;
 use Illuminate\Http\Request;
 
-class CollectorController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class CollectorController extends Controller
     public function index()
     {
         //
-        $collectors = Collector::all();
-        return view('collector.index',compact('collectors'));
+        $customers = Customer::all();
+        return view('customer.index', compact('customers'));
     }
 
     /**
@@ -38,17 +38,15 @@ class CollectorController extends Controller
     public function store(Request $request)
     {
         //
-        Collector::create($request->all());
-        return redirect()->back()->with('message', 'Successfully added!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Collector  $collector
+     * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Collector $collector)
+    public function show(Customer $customer)
     {
         //
     }
@@ -56,10 +54,10 @@ class CollectorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Collector  $collector
+     * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Collector $collector)
+    public function edit(Customer $customer)
     {
         //
     }
@@ -68,10 +66,10 @@ class CollectorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Collector  $collector
+     * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Collector $collector)
+    public function update(Request $request, Customer $customer)
     {
         //
     }
@@ -79,13 +77,11 @@ class CollectorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Collector  $collector
+     * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Collector $collector)
+    public function destroy(Customer $customer)
     {
         //
-        Collector::destroy($collector->id);
-        return back()->withFlashSuccess('User deleted successfully');
     }
 }
