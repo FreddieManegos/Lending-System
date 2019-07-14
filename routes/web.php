@@ -24,3 +24,7 @@ Route::resource('/loan','LoanController');
 Route::resource('/collector','CollectorController');
 
 Route::get('/customer', 'CustomerController@index');
+
+Route::post('/updatePayment','PaymentController@updatePayment');
+
+Route::get('/getLoan/{id}','LoanController@getLoan');

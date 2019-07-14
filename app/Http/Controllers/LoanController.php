@@ -18,6 +18,9 @@ class LoanController extends Controller
     public function index()
     {
         //
+//        $date = date("Y-m-d");
+//        for($i = 1; $i < 60 ; $i++)
+//            echo strftime("%Y-%m-%d", strtotime("$date +$i day")) . "<br>";
         $loans = Loan::all();
         return view('loan.index',compact('loans'));
     }
@@ -43,20 +46,31 @@ class LoanController extends Controller
     public function store(Request $request)
     {
         //
-        $id = Customer::create($request->only('first_name','last_name','address','mobile_no'))->id;
-        Loan::create([
+        $customer_id = Customer::create($request->only('first_name','last_name','address','mobile_no'))->id;
+        $loan_id = Loan::create([
             'account_no'    => 01,
             'collector_id'  => $request->collector_id,
             'total_loan'    => $request->total_loan,
             'date_loaned'   => $request->date_loaned,
-            'customer_id'   => $id,
+            'customer_id'   => $customer_id,
             'amount_loaned' => $request->amount_loaned,
             'due_date'      => $request->due_date,
             'daily_payment' => $request->daily_payment,
             'loan_term'     => $request->loan_term
-        ]);
+        ])->id;
 
-
+//        $date = date($request->date_loaned);date
+//        return date("Y-m-d" ,strtotime($request->date_loaned . "+2 day"));
+        for($i = 1; $i <= 60 ; $i++) {
+            $date = date("Y-m-d", strtotime($request->date_loaned . "+$i day"));
+            Payment::create([
+                'loan_id' => $loan_id,
+                'date' => $date,
+                'payment_amount' => $request->daily_payment,
+                'status' => 0,
+                'if_sunday' => date("w", (strtotime($date))) == 0 ? 1 : 0,
+            ]);
+        }
 
         return redirect()->back()->with('message', 'Successfully added!');
     }
@@ -70,7 +84,8 @@ class LoanController extends Controller
     public function show(Loan $loan)
     {
         //
-        return view('loan.show',compact('loan'));
+        $payments = Payment::where('loan_id',$loan->id)->orderBy('status','asc')->orderBy('id','asc')->paginate(10);
+        return view('loan.show',compact('loan','payments'));
     }
 
     /**
@@ -105,5 +120,12 @@ class LoanController extends Controller
     public function destroy(Loan $loan)
     {
         //
+    }
+
+    public function getLoan(Request $request){
+        $loan['data'] = Loan::where('id',$request->id)->get();
+
+        echo json_encode($loan);
+        exit;
     }
 }

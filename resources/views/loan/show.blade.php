@@ -8,14 +8,18 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Show Loans</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Show Loans</h1>
+        </div>
+        <div class="col-md-6 text-right">
+            {{ $payments->render() }}
+        </div>
+    </div>
 @stop
 
 @section('content')
-    <div class="col-md-6"  style="    background: rgba(245, 198, 18, 0.54);">
-        <form action="{{route('loan.store')}}" method="POST">
-            {{csrf_field()}}
-
+    <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group ">
@@ -104,20 +108,86 @@
                     </div>
                 </div>
             </div>
-            {{--<button type="submit" class="btn btn-primary">Submit</button>--}}
-        </form>
+    </div>
+
+    <div class="col-md-6">
+        <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+        <table class="table table-striped">
+            <tr>
+                <th>Date</th>
+                <th>Check</th>
+                <th>Daily Payment</th>
+            </tr>
+            @foreach($payments as $payment)
+                <input type="hidden" id="loan_id" value="{{ $payment->loan_id}}">
+                @if($payment->date === date('Y-m-d'))
+                <tr id="payment_{{$payment->id}}" class="" style="background-color:#FFEEBA">
+                @else
+                <tr id="payment_{{$payment->id}}">
+                @endif
+                    <td>{{date('m/d',strtotime($payment->date))}}</td>
+                    <td>
+                        @if($payment->status == 0)
+                        <button class="paid_button btn btn-primary" name="paid_name" id="paid_button_{{$payment->id}}" value="{{$payment->id}}">Paids</button>
+                        @else
+                        <button class="paid_button btn btn-success" name="paid_name" value="{{$payment->id}}" disabled>Paidz</button>
+                        @endif
+                    </td>
+                    <td><input type="text" id="payment_value_{{$payment->id}}" value="{{$payment->loan->daily_payment == $payment->payment_amount ? $payment->payment_amount : $payment->payment_amount  }}" style="border: 0.5px solid white;"></td>
+                </tr>
+            @endforeach
+        </table>
     </div>
 @stop
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+
 @stop
 
 @section('js')
     <script>
         $(document).ready( function () {
             $('#myTable').DataTable();
+
+            $(".paid_button").click(function () {
+                var value = this.value;
+                var daily_payment = $('#daily_payment').val();
+                var payment_id = $('#payment_id').val();
+                var payment_amount = $('#payment_value_'+value).val();
+                var total_loan = $('#total_loan')[0];
+                var CSRF_TOKEN = $('#_token').val();
+                var loan_id = $('#loan_id').val();
+
+                $.ajax({
+                    url:'/updatePayment',
+                    type: 'POST',
+                    data: {
+                        _token : CSRF_TOKEN,
+                        id : this.value,
+                        daily_payment: payment_amount,
+                        payment_id : payment_id,
+                    },
+                    success: function () {
+                        $("#payment_" + value).attr("class","table-primary");
+                        $("#payment_" + value).attr("style","background-color:#C3E6CB");
+                        $("#paid_button_" + value).prop("disabled",true);
+                    }
+                });
+
+                $.ajax({
+                    url: '/getLoan/' + loan_id,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(response){
+                        var loan = response['data'][0].total_loan;
+                        total_loan.value = loan;
+                    }
+                });
+
+            });
         } );
+
     </script>
 @stop
 

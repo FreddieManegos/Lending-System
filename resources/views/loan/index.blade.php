@@ -1,6 +1,5 @@
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
 
 {{-- resources/views/admin/dashboard.blade.php --}}
 @extends('adminlte::page')
@@ -27,7 +26,11 @@
         </thead>
         <tbody>
         @foreach($loans as $loan)
-        <tr>
+            @if($loan->due_date <= date('Y-m-d'))
+          <tr style="background-color: #F5C6CB;">
+              @else
+          <tr>
+              @endif
             <td>{{$loan->id}}</td>
             <td>{{$loan->customer->last_name}}, {{$loan->customer->first_name}}</td>
             <td>{{$loan->total_loan}}</td>
@@ -48,9 +51,12 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 @stop
 
 @section('js')
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready( function () {
             $('#myTable').DataTable();

@@ -17,6 +17,8 @@ class CreatePaymentsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('loan_id');
             $table->date('date');
+            $table->integer('payment_amount');
+            $table->smallInteger('if_sunday');
             $table->smallInteger('status');
             $table->timestamps();
         });

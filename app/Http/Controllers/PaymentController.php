@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Loan;
 use App\Payment;
 use Illuminate\Http\Request;
 
@@ -81,5 +82,16 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+    }
+
+    public function updatePayment(Request $request){
+        $payment = Payment::where('id',$request->id)->first();
+        $payment->status=1;
+        $payment->payment_amount = $request->daily_payment;
+        $payment->save();
+
+        $loan = Loan::where('id', $payment->loan_id)->first();
+        $loan->total_loan -= $request->daily_payment;
+        $loan->save();
     }
 }

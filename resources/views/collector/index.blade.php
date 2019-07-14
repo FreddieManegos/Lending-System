@@ -20,7 +20,7 @@
         </button>
     </div>
     <div class="container-fluid">
-        <table class="table table-striped">
+        <table class="table table-striped" >
             <tr>
                 <th scope="col" width="10%">#</th>
                 <th scope="col" width="60%">Name</th>
@@ -46,6 +46,9 @@
 
 @section('js')
     <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
     </script>
 @stop
 

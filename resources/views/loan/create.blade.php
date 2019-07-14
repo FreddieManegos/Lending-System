@@ -17,7 +17,8 @@
         </div>
     @endif
     <div class="row">
-        <div class="col-md-6"  style="    background: rgba(245, 198, 18, 0.54);">
+        <div class="col-md-3"></div>
+        <div class="col-md-6"  style="background-color: white; padding: 15px;">
             <form action="{{route('loan.store')}}" method="POST">
                 {{csrf_field()}}
 
@@ -115,16 +116,8 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
-        <div class="col-md-3">
-            {{--<table class="TABLE"></table>--}}
-            <div id="dvTable"></div>
-        </div>
-        <div class="col-md-3">
-            {{--<table class="TABLE"></table>--}}
-            <div id="dvTable2"></div>
-        </div>
+        <div class="col-md-3"></div>
     </div>
-
 @stop
 
 @section('css')
