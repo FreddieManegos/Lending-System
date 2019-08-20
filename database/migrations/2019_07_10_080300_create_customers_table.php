@@ -17,8 +17,8 @@ class CreateCustomersTable extends Migration
             $table->bigIncrements('id');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('address');
-            $table->string('mobile_no');
+            $table->string('address')->nullable();
+            $table->string('mobile_no')->nullable();
             $table->timestamps();
         });
     }

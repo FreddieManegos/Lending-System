@@ -18,6 +18,7 @@ class CreateLoansTable extends Migration
             $table->unsignedInteger('account_no')->nullable();
             $table->unsignedInteger('collector_id');
             $table->unsignedInteger('total_loan');
+            $table->unsignedInteger('balance');
             $table->date('date_loaned');
             $table->unsignedInteger('customer_id');
             $table->unsignedInteger('amount_loaned');

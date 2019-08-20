@@ -9,88 +9,163 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="card-group">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="d-flex no-block align-items-center">
-                                <div>
-                                    <i class="mdi mdi-receipt font-20 text-muted"></i>
-                                    <p class="font-16 m-b-5">Products</p>
-                                </div>
-                                <div class="ml-auto">
-                                    <h1 class="font-light text-right"> </h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="progress">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 75%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Column -->
-            <!-- Column -->
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="d-flex no-block align-items-center">
-                                <div>
-                                    <i class="mdi mdi-reorder-horizontal font-20 text-muted"></i>
-                                    <p class="font-16 m-b-5">Categories</p>
-                                </div>
-                                <div class="ml-auto">
-                                    <h1 class="font-light text-right"></h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="progress">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 50%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Column -->
-            <!-- Column -->
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="d-flex no-block align-items-center">
-                                <div>
-                                    <i class="mdi mdi-truck font-20 text-muted"></i>
-                                    <p class="font-16 m-b-5">Transactions</p>
-                                </div>
-                                <div class="ml-auto">
-                                    <h1 class="font-light text-right"></h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 90%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="row" >
+        <div class="col-md-4">
+            <div class="info-box">
+                <!-- Apply any bg-* class to to the icon to color it -->
+                <span class="info-box-icon bg-blue"><i class="fa fa-money"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text"># Loans</span>
+                    <span class="info-box-number">{{$loans_num}}</span>
+                </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+        </div>
+        <div class="col-md-4">
+            <div class="info-box">
+                <!-- Apply any bg-* class to to the icon to color it -->
+                <span class="info-box-icon bg-yellow"><i class="fa fa-group"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text"># Clients</span>
+                    <span class="info-box-number">{{$customers_num}}</span>
+                </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+        </div>
+        <div class="col-md-4">
+            <div class="info-box">
+                <!-- Apply any bg-* class to to the icon to color it -->
+                <span class="info-box-icon bg-red"><i class="fa fa-hourglass-3"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text"># Overdues</span>
+                    <span class="info-box-number">{{$overdue_num}}</span>
+                </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="" id="sales"></div>
+        </div>
+        <div class="col-md-4" style=" margin-top: 10px; padding-right: 15px; padding-left: 15px;">
+            <div style="background-color: white; padding: 10px;">
+            <h4>Overdue Loans</h4>
+            @if($overdue_num > 0)
+            <table class=" table display" style="margin-bottom: 0px;" >
+                <thead>
+                <tr>
+                    <th scope="col" width="10%">#</th>
+                    <th scope="col" width="60%">Name</th>
+                    <th scope="col" width="30%">Action</th>
+                </tr>
+                </thead>
+
+
+                @foreach($overdue_customers as $loan)
+                 <tbody>
+                    <tr>
+                        <td>{{$loan->id}}</td>
+                        <td>{{$loan->customer->last_name}}, {{$loan->customer->first_name}}</td>
+                        <td>
+                            <a href="loan\{{$loan->id}}" class="btn btn-sm btn-warning">View Loan</a>
+                        </td>
+                    </tr>
+                 </tbody>
+                @endforeach
+            </table>
+            @else
+                <p style="text-align: center;">Nothing to show</p>
+            @endif
+            <div style="text-align: center;">
+            {{ $overdue_customers->links() }}
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    {{--<div class="row" style="padding-top: 10px;">--}}
+        {{--<div class="col-md-8">--}}
+            {{--<canvas id="myChart2" max-width="100" max-height="50" style="background-color: white"></canvas>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+    </div>
+
 @stop
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    
 @stop
 
 @section('js')
-    <script>
 
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $.getJSON('dashboard/sales', function(data){
+                Highcharts.chart('sales', {
+                    title: {
+                        text: 'Net Sales'
+                    },
+
+                    subtitle: {
+                        text: 'This Week'
+                    },
+
+                    yAxis: {
+                        title: {
+                            text: 'Net Sales'
+                        }
+                    },
+                    xAxis: {
+                        categories: data.labels
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            }
+                        }
+                    },
+
+                    series: [{
+                        name: 'Net Sales',
+                        data: data.series,
+                        color: "green"
+                    }],
+
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            }
+                        }]
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
     </script>
 @stop
 

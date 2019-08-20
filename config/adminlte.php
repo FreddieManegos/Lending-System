@@ -47,7 +47,7 @@ return [
     |
     */
 
-    'skin' => 'blue',
+    'skin' => 'green',
 
     /*
     |--------------------------------------------------------------------------
@@ -60,7 +60,7 @@ return [
     |
     */
 
-    'layout' => null,
+    'layout' => 'fixed',
 
     /*
     |--------------------------------------------------------------------------
@@ -87,7 +87,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
 
     'logout_url' => 'logout',
 
@@ -120,7 +120,7 @@ return [
             'icon'    => 'cc',
             'submenu' => [
                 [
-                    'text' => 'Loans',
+                    'text' => 'All Loans',
                     'icon' => 'eye',
                     'url'  => 'loan',
                 ],

@@ -16,4 +16,10 @@ class Loan extends Model
     public function customer(){
         return $this->belongsTo('App\Customer');
     }
+
+    public function payment(){
+        return $this->hasMany('App\Payment','loan_id');
+    }
+    public function path(){
+    }
 }

@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Collector;
+use App\Loan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Customer;
+use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class CollectorController extends Controller
 {
@@ -74,6 +79,8 @@ class CollectorController extends Controller
     public function update(Request $request, Collector $collector)
     {
         //
+        Collector::where('id',$collector->id)->update(['name' => $request->name]);
+        return back()->withFlashSuccess('Employee updated successfully');
     }
 
     /**
@@ -87,5 +94,20 @@ class CollectorController extends Controller
         //
         Collector::destroy($collector->id);
         return back()->withFlashSuccess('User deleted successfully');
+    }
+
+    public function export_pdf(Request $request)
+    {
+        $data = Loan::where([
+            ['collector_id','=',$request->route('id')],
+            ['is_paid','=',0]
+            ])->get();
+        if(!$data->isEmpty()) {
+            $pdf = PDF::loadView('collector.pdf', compact('data'))->setPaper('Folio', 'Portrait');
+            Storage::put('public/pdf/' . $request->route('id') . '_collector_' . Carbon::today()->toDateString() . '.pdf', $pdf->output());
+            return response()->file(storage_path('app\public\pdf\\' . $request->route('id') . '_collector_' . Carbon::today()->toDateString() . '.pdf'));
+        } else {
+            return back()->withFlashSuccess('Nothing to Print');
+        }
     }
 }

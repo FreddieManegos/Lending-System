@@ -91,7 +91,10 @@ class PaymentController extends Controller
         $payment->save();
 
         $loan = Loan::where('id', $payment->loan_id)->first();
-        $loan->total_loan -= $request->daily_payment;
+        $loan->balance -= $request->daily_payment;
+        if($loan->balance == 0){
+            $loan->is_paid = 1;
+        }
         $loan->save();
     }
 }

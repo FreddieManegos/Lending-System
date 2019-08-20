@@ -15,6 +15,10 @@
         <div class="alert alert-success">
             {{ session()->get('message') }}
         </div>
+    @elseif(session()->has('warning'))
+        <div class="alert alert-warning">
+            {{ session()->get('warning')}}
+        </div>
     @endif
     <div class="row">
         <div class="col-md-3"></div>
@@ -31,8 +35,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group ">
-                            <label for="title">Collector:</label>
+                            <label for="title">Collector:<span class="required">*</span></label>
                             <select class="form-control" name="collector_id" required >
+                                <option value="" selected>--Choose Collector--</option>
                                 @foreach($collectors as $collector)
                                 <option value="{{$collector->id}}">{{$collector->name}}</option>
                                 @endforeach
@@ -43,39 +48,39 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="title">Total Loan:</label>
+                            <label for="title">Total Loan:<span class="required">*</span></label>
                             <input type="text" class="form-control" id="total_loan"  name="total_loan" readonly required>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="input-group">
-                            <label for="title">Date Loan:</label>
-                            <input type="date" class="form-control" id="date_loaned"  name="date_loaned" required>
-                            <div class="input-group-addon" style="
+                            <label for="title">Date Loan:<span class="required">*</span></label>
+                            <div class="input-group" style="
                                 border-color: #ecf0f5;
-                                background-color: #ecf0f5;">
-                                <button class="input-group-text btn" type="button" id="setButton">Set</button>
+                                background-color: white;
+                                border: 0px;
+                                padding: 0px;">
+                                <input type="date" class="form-control" id="date_loaned"  name="date_loaned" required>
+                                <span class="input-group-addon" style="padding: 0px;border: 0px;"><button class="input-group-text btn btn-primary" type="button" id="setButton">Set</button></span>
                             </div>
-                        </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="title">First Name:</label>
+                            <label for="title">First Name:<span class="required">*</span></label>
                             <input type="text" class="form-control" id="productName"  name="first_name" placeholder="First Name" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="title">Last Name:</label>
+                            <label for="title">Last Name:<span class="required">*</span></label>
                             <input type="text" class="form-control" id="productName"  name="last_name" placeholder="Last Name" required>
                         </div>
                     </div>
                 </div>
                 <div class="form-group ">
-                    <label for="title">Address:</label>
+                    <label for="title">Address:<span class="required">*</span></label>
                     <input type="text" class="form-control" id="productName"  name="address" size="10" required>
                 </div>
                 <div class="form-group ">
@@ -85,13 +90,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="title">Amount Loan:</label>
+                            <label for="title">Amount Loan:<span class="required">*</span></label>
                             <input type="text" autocomplete="off" class="form-control" id="amount_loaned"  name="amount_loaned" onkeypress="return isNumberKey(event)" >
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group ">
-                            <label for="title">Due Date:</label>
+                            <label for="title">Due Date:<span class="required">*</span></label>
                             <input type="date" class="form-control" id="due_date"  name="due_date" readonly>
                         </div>
                     </div>
@@ -99,21 +104,22 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="title">Daily Payment: </label>
+                            <label for="title">Daily Payment:<span class="required">*</span> </label>
                             <input type="text" class="form-control" id="daily_payment"  name="daily_payment" readonly >
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="title">Term:</label>
+                            <label for="title">Term:<span class="required">*</span></label>
                             <select class="form-control"  name="loan_term" id="loan_term" required>
-                                <option >52</option>
-                                <option>26</option>
+                                <option value="" selected>--Choose Term--</option>
+                                <option value="52">52</option>
+                                <option value="26">26</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>
         <div class="col-md-3"></div>
@@ -127,6 +133,10 @@
         th, td {
             padding: 2px;
             text-align: left;
+        }
+        .required
+        {
+            color: red;
         }
     </style>
 
@@ -149,7 +159,7 @@
         var loan_term = document.getElementById('loan_term');
 
         amount_loaned.addEventListener('input',function() {
-            total_loan.value = (this.value * 1.2);
+            total_loan.value = Math.round(this.value * 1.2);
             daily_payment.value = Math.ceil(this.value * 1.2 / 52);
         });
 
@@ -164,44 +174,28 @@
             if(this.value == '52'){
                 total_loan.value = amount_loaned.value * total_with_interest;
                 daily_payment.value = Math.ceil(amount_loaned.value * total_with_interest / 52);
+
+                var date_loaned  = document.getElementById('date_loaned');
+                var due_date = document.getElementById('due_date');
+                var result = new Date(date_loaned.value);
+                result.setDate(result.getDate() + 60);
+                var month = (result.getMonth() + 1 ) >= '10' ? (result.getMonth() + 1) : '0' + (result.getMonth() + 1);
+                var day = result.getDate() >= '10' ? result.getDate() : '0' + result.getDate();
+                due_date.value = result.getFullYear() + '-' + month + '-' + day;
+
             }else {
                 total_loan.value = Math.floor(amount_loaned.value * total_with_interest);
                 daily_payment.value = Math.ceil(amount_loaned.value * total_with_interest / 26);
+
+                var date_loaned  = document.getElementById('date_loaned');
+                var due_date = document.getElementById('due_date');
+                var result = new Date(date_loaned.value);
+                result.setDate(result.getDate() + 30);
+                var month = (result.getMonth() + 1 ) >= '10' ? (result.getMonth() + 1) : '0' + (result.getMonth() + 1);
+                var day = result.getDate() >= '10' ? result.getDate() : '0' + result.getDate();
+                due_date.value = result.getFullYear() + '-' + month + '-' + day;
             }
-            // var customers = new Array();
-            // var date_loaned = document.getElementById('date_loaned');
-            // var incremented_date = new Date(date_loaned.value);
-            //
-            // customers.push(["Date", "Payment", "Balance"]);
-            // for(var i = 1; i <= 30 ; i++)
-            //   customers.push([ incremented_date.addDays(i).getMonth() + 1+'/'+ incremented_date.addDays(i).getDate(), , total_loan.value]);
-            //
-            // //Create a HTML Table element.
-            // var table = document.createElement("TABLE");
-            // table.border = "1";
-            //
-            // //Get the count of columns.
-            // var columnCount = customers[0].length;
-            //
-            // //Add the header row.
-            // var row = table.insertRow(-1);
-            // for (var i = 0; i < columnCount; i++) {
-            //     var headerCell = document.createElement("TH");
-            //     headerCell.innerHTML = customers[0][i];
-            //     row.appendChild(headerCell);
-            // }
-            //
-            // //Add the data rows.
-            // for (var i = 1; i < customers.length; i++) {
-            //     row = table.insertRow(-1);
-            //     for (var j = 0; j < columnCount; j++) {
-            //         var cell = row.insertCell(-1);
-            //         cell.innerHTML = customers[i][j];
-            //     }
-            // }
-            // var dvTable = document.getElementById("dvTable");
-            // dvTable.innerHTML = "";
-            // dvTable.appendChild(table);
+
         });
     </script>
     <script>
@@ -214,6 +208,9 @@
                 var month = (result.getMonth() + 1 ) >= '10' ? (result.getMonth() + 1) : '0' + (result.getMonth() + 1);
                 var day = result.getDate() >= '10' ? result.getDate() : '0' + result.getDate();
                 due_date.value = result.getFullYear() + '-' + month + '-' + day;
+
+                var loan_term = document.getElementById('loan_term');
+                loan_term.value = 52;
             })
         });
 

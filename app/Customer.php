@@ -8,4 +8,8 @@ class Customer extends Model
 {
     //
     protected $guarded = [];
+
+    public function loan(){
+        return $this->hasMany('App\Loan','customer_id');
+    }
 }

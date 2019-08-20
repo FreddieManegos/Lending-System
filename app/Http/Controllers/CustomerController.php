@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Loan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
+use PDF;
 
 class CustomerController extends Controller
 {
@@ -20,38 +24,6 @@ class CustomerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Customer $customer)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Customer  $customer
@@ -60,6 +32,8 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         //
+
+
     }
 
     /**
@@ -84,4 +58,18 @@ class CustomerController extends Controller
     {
         //
     }
+
+    public function export_pdf(Request $request)
+    {
+            $data = Loan::where('customer_id',$request->route('id'))->get();
+            $pdf = PDF::loadView('customer.pdf',compact('data'))->setPaper('Letter', 'Portrait');
+            Storage::put('public/pdf/' . $request->route('id') . '_collector_' . Carbon::today()->toDateString() . '.pdf', $pdf->output());
+            return response()->file(storage_path('app\public\pdf\\' . $request->route('id') . '_collector_' . Carbon::today()->toDateString() . '.pdf'));
+    }
+
+    public function view_table(){
+        $data = Customer::orderBy('last_name','asc')->get()->toArray();
+        return view('customer.pdf',compact('data'));
+    }
 }
+
