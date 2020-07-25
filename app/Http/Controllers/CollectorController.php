@@ -89,11 +89,16 @@ class CollectorController extends Controller
      * @param  \App\Collector  $collector
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Collector $collector)
+    public function destroy(Collector $collector, Request $request)
     {
         //
-        Collector::destroy($collector->id);
-        return back()->withFlashSuccess('User deleted successfully');
+        if(count($collector->loan()->get()) != 0){
+            return redirect()->back()->with('danger', 'Cannot be deleted. Loans are still assigned in this collector!');
+        } else {
+            Collector::destroy($collector->id);
+            return redirect()->back()->with('message', 'Successfully deleted');
+        }
+
     }
 
     public function export_pdf(Request $request)

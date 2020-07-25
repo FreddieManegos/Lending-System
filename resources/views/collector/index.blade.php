@@ -13,6 +13,11 @@
             {{ session()->get('message') }}
         </div>
     @endif
+    @if(session()->has('danger'))
+        <div class="alert alert-danger">
+            {{ session()->get('danger') }}
+        </div>
+    @endif
     @include('collector._modal')
     <div class="row">
         <div class="col-md-12">

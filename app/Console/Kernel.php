@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\MySQLBackup',
     ];
 
     /**
@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+//        $schedule->command('mysql.backup')->dailyAt('12:30');
+        $schedule->command('mysql.backup')->everyFiveMinutes();
     }
 
     /**

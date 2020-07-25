@@ -12,7 +12,7 @@
     @include('loan._modal')
     @include('loan._modal2')
 
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills green">
         <li class="active"><a href="#not_paid">Not Paid</a></li>
         <li><a href="#paid">Paid</a></li>
         <li><a href="#overdue">Overdue</a></li>
@@ -53,7 +53,7 @@
                             <td><span class="label label-default" style="font-size: 12px;"><span>{{$loan->balance}}</span></span></td>
                             <td>
                                 <a href="loan\{{$loan->id}}" ><button class="btn btn-success"><i class="fa fa-fw fa-eye"></i></button></a>
-                                {{--<a href="" data-toggle="modal" data-target="#edit-{{$loan->id}}"><button class="btn btn-primary"><i class="fa fa-fw fa-edit"></i></button></a>--}}
+                                <a href="" data-toggle="modal" data-target="#edit-{{$loan->id}}"><button class="btn btn-primary"><i class="fa fa-fw fa-edit"></i></button></a>
                                 <a href="" data-toggle="modal" data-target="#delete-{{$loan->id}}"><button class="btn btn-danger"><i class="fa fa-fw fa-times"></i></button></a>
                             </td>
                         </tr>
@@ -73,16 +73,17 @@
                     <th>LDue</th>
                     <th>Collector</th>
                     <th>Perday</th>
-                    <th>Total Balance</th>
+                    {{--<th>Total Balance</th>--}}
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody style="text-align: center;">
                 @foreach($paid_loans as $loan)
-                    @if($loan->due_date <= date('Y-m-d'))
+                    @if($loan->balance > 0)
+                        <tr style="background-color: #bee5eb">
                     @else
                         <tr>
-                            @endif
+                    @endif
                             <td>{{$loan->id}}</td>
                             <td>{{$loan->customer->last_name}}, {{$loan->customer->first_name}}</td>
                             <td>{{$loan->amount_loaned}}</td>
@@ -91,7 +92,7 @@
                             <td>{{$loan->due_date}}</td>
                             <td>{{$loan->collector->name}}</td>
                             <td>{{$loan->daily_payment}}</td>
-                            <td><span class="label label-default" style="font-size: 12px;"><span>{{$loan->balance}}</span></span></td>
+                            {{--<td><span class="label label-default" style="font-size: 12px;"><span>{{$loan->balance}}</span></span></td>--}}
                             <td>
                                 <a href="loan\{{$loan->id}}" ><button class="btn btn-success"><i class="fa fa-fw fa-eye"></i></button></a>
                                 {{--<a href="" data-toggle="modal" data-target="#edit2-{{$loan->id}}"><button class="btn btn-primary"><i class="fa fa-fw fa-edit"></i></button></a>--}}

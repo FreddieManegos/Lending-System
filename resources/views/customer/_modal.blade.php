@@ -38,7 +38,11 @@
                                 @endif
                                 <td>
                                     <a href="loan\{{$loan->id}}"><button class="btn btn-success"><i class="fa fa-fw fa-eye"></i></button></a>
+                                    @if($loan->is_paid == 0)
                                     <a href="customer\pdf\{{$loan->id}}" target="_blank" ><button class="btn btn-warning"><i class="fa fa-fw fa-print"></i></button></a>
+                                    @else
+                                    <a href="customer\pdf\{{$loan->id}}" target="_blank" ><button class="btn btn-warning"><i class="fa fa-fw fa-print"></i></button></a>
+                                    @endif
                                 </td>
 
                             </tr>

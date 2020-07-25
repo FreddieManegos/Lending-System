@@ -115,11 +115,13 @@
                                 <option value="" selected>--Choose Term--</option>
                                 <option value="52">52</option>
                                 <option value="26">26</option>
+                                <option value="44">44</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-success">Submit</button>
+                <a href="create"><button type="reset" class="btn btn-primary">Clear</button></a>
             </form>
         </div>
         <div class="col-md-3"></div>
@@ -170,10 +172,13 @@
         }
 
         loan_term.addEventListener('input', function(){
-            var total_with_interest = this.value == '52' ? 1.2 : 1.1;
-            if(this.value == '52'){
+            var total_with_interest = this.value == '52' || this.value == '44' ? 1.2 : 1.1;
+            if(this.value == '52' || this.value == '44'){
                 total_loan.value = amount_loaned.value * total_with_interest;
-                daily_payment.value = Math.ceil(amount_loaned.value * total_with_interest / 52);
+                if(this.value != 44)
+                    daily_payment.value = Math.ceil(amount_loaned.value * total_with_interest / 52);
+                else
+                    daily_payment.value = Math.ceil(amount_loaned.value * total_with_interest / 44);
 
                 var date_loaned  = document.getElementById('date_loaned');
                 var due_date = document.getElementById('due_date');
@@ -183,7 +188,7 @@
                 var day = result.getDate() >= '10' ? result.getDate() : '0' + result.getDate();
                 due_date.value = result.getFullYear() + '-' + month + '-' + day;
 
-            }else {
+            } else {
                 total_loan.value = Math.floor(amount_loaned.value * total_with_interest);
                 daily_payment.value = Math.ceil(amount_loaned.value * total_with_interest / 26);
 
@@ -220,6 +225,7 @@
                 return false;
             return true;
         }
+
     </script>
 
 @stop

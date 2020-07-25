@@ -61,10 +61,16 @@ class CustomerController extends Controller
 
     public function export_pdf(Request $request)
     {
-            $data = Loan::where('customer_id',$request->route('id'))->get();
-            $pdf = PDF::loadView('customer.pdf',compact('data'))->setPaper('Letter', 'Portrait');
+        $data = Loan::where('id',$request->route('id'))->get();
+        if($data->first()->is_paid == 0) {
+            $pdf = PDF::loadView('customer.pdf', compact('data'))->setPaper('Letter', 'Portrait');
             Storage::put('public/pdf/' . $request->route('id') . '_collector_' . Carbon::today()->toDateString() . '.pdf', $pdf->output());
             return response()->file(storage_path('app\public\pdf\\' . $request->route('id') . '_collector_' . Carbon::today()->toDateString() . '.pdf'));
+        } else {
+            $pdf = PDF::loadView('customer.paid_pdf', compact('data'))->setPaper('Letter', 'Portrait');
+            Storage::put('public/pdf/' . $request->route('id') . '_collector_' . Carbon::today()->toDateString() . '.pdf', $pdf->output());
+            return response()->file(storage_path('app\public\pdf\\' . $request->route('id') . '_collector_' . Carbon::today()->toDateString() . '.pdf'));
+        }
     }
 
     public function view_table(){

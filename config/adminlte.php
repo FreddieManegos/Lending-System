@@ -38,7 +38,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Skin Color
+    | Skin Color'
     |--------------------------------------------------------------------------
     |
     | Choose a skin color for your admin panel. The available skin colors:
@@ -60,7 +60,7 @@ return [
     |
     */
 
-    'layout' => 'fixed',
+    'layout' => 'top-nav',
 
     /*
     |--------------------------------------------------------------------------
@@ -140,6 +140,11 @@ return [
             'text'        => 'Customer',
             'url'         => 'customer',
             'icon'        => 'group',
+        ],
+        [
+            'text'        => 'Backup',
+            'url'         => 'backup',
+            'icon'        => 'copy',
         ],
     ],
 
